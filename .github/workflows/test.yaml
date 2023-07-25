@@ -1,0 +1,14 @@
+name: Test
+
+on:
+  workflow_dispatch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-go@v2
+      - uses: actions/checkout@v3
+        with:
+          repository: 'magodo/aztfy'
+          ref: 'support_oidc'
