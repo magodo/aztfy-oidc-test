@@ -26,7 +26,7 @@ jobs:
           go install
       - name: Export the demo rg using oidc
         run:
-          mkdir /tmp/aztfytest && cd /tmp/aztfytest && $HOME/go/bin/aztfexport rg -n -f -use-oidc-cred aztfy-vmdisk
+          mkdir /tmp/aztfytest && cd /tmp/aztfytest && $HOME/go/bin/aztfexport rg -n -f -use-oidc-cred --plain-ui aztfy-vmdisk
         env:
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
