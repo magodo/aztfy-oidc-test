@@ -28,6 +28,7 @@ jobs:
         run:
           mkdir /tmp/aztfytest && cd /tmp/aztfytest && $HOME/go/bin/aztfexport rg -n -f -use-oidc-cred --plain-ui aztfy-vmdisk
         env:
+          ARM_USE_OIDC: true
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
