@@ -23,7 +23,7 @@ jobs:
           ref: 'support_oidc'
       - name: Install aztfy
         run: |
-          go install
+          go build && mv aztfexport /usr/bin
       - name: Export the demo rg using oidc
         run:
           mkdir /tmp/aztfytest && cd /tmp/aztfytest && aztfexport rg -n -f -use-oidc-cred aztfy-vmdisk
