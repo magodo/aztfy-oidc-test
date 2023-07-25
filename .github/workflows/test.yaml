@@ -12,3 +12,13 @@ jobs:
         with:
           repository: 'magodo/aztfy'
           ref: 'support_oidc'
+      - name: Install aztfy
+        run: |
+          go install
+      - name: Export the demo rg using oidc
+        run:
+          mkdir /tmp/aztfytest && cd /tmp/aztfytest && aztfexport rg -n -f -use-oidc-cred aztfy-vmdisk
+        env:
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
