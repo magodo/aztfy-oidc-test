@@ -11,6 +11,11 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Install terraform
+        run: |
+          wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+          sudo apt update && sudo apt install terraform
       - uses: actions/setup-go@v2
       - uses: actions/checkout@v3
         with:
@@ -26,3 +31,6 @@ jobs:
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
           ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      - name: Verify
+        run:
+          cd /tmp/aztfytest && terraform state list
