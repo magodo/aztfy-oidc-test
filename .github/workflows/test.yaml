@@ -20,18 +20,13 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: 'magodo/aztfy'
-          ref: 'support_oidc'
+          ref: 'auth_config'
       - name: Install aztfy
         run: |
           go install
       - name: Export the demo rg using oidc
         run:
-          mkdir /tmp/aztfytest && cd /tmp/aztfytest && $HOME/go/bin/aztfexport rg -n -f -use-oidc-cred --plain-ui aztfy-vmdisk
-        env:
-          ARM_USE_OIDC: true
-          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          mkdir /tmp/aztfytest && cd /tmp/aztfytest && $HOME/go/bin/aztfexport rg -n -f -use-oidc-cred --tenant-id=${{ secrets.ARM_TENANT_ID }} -s ${{ secrets.ARM_SUBSCRIPTION_ID}} --client-id ${{ secrets.ARM_CLIENT_ID }} --plain-ui aztfy
       - name: Verify
         run:
           cd /tmp/aztfytest && terraform state list
