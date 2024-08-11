@@ -52,7 +52,7 @@ func main() {
 	}
 
 	c := oauth2.NewClient(ctx, ts)
-	resp, err := c.Get(fmt.Sprintf("https://management.azure.com/subscriptions/%s/resourcegroups/magodo-test?api-version=2020-06-01", *subId))
+	resp, err := c.Get(fmt.Sprintf("https://management.azure.com/subscriptions/%s/resourcegroups/aztfy?api-version=2020-06-01", *subId))
 	if err != nil {
 		log.Fatal(err)
 	}
