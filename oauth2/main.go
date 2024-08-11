@@ -55,7 +55,6 @@ func main() {
 
 	c := oauth2.NewClient(ctx, ts)
 	resp, err := c.Get(fmt.Sprintf("https://management.azure.com/subscriptions/%s/resourcegroups/aztfy?api-version=2020-06-01", *subId))
-	log.Println(resp)
 	if resp != nil {
 		b, err := io.ReadAll(resp.Body)
 		if err != nil {
