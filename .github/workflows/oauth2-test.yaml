@@ -19,4 +19,4 @@ jobs:
           go install
       - name: Run
         run:
-          oauth2-test
+          $HOME/go/bin/oauth2-test
