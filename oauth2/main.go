@@ -43,7 +43,9 @@ func main() {
 				SubjectTokenFieldName: "value",
 			},
 		},
-		Scopes: []string{"https://management.azure.com"},
+		Scopes: []string{
+			"https://management.azure.com/.default",
+		},
 	}
 
 	ts, err := externalaccount.NewTokenSource(ctx, conf)
