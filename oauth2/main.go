@@ -29,7 +29,7 @@ func main() {
 	conf := externalaccount.Config{
 		Audience:         "api://AzureADTokenExchange",
 		SubjectTokenType: "urn:ietf:params:oauth:token-type:jwt",
-		TokenURL:         "https://login.microsoftonline.com/oauth2/v2.0/token",
+		TokenURL:         "https://login.microsoftonline.com/common/oauth2/v2.0/token",
 		ClientID:         *clientId,
 		CredentialSource: &externalaccount.CredentialSource{
 			URL: os.Getenv("ACTIONS_ID_TOKEN_REQUEST_URL"),
