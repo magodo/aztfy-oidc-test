@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"io"
 	"log"
@@ -11,26 +12,25 @@ import (
 	"golang.org/x/oauth2/google/externalaccount"
 )
 
-const (
-	EnvClientID       = "ARM_CLIENT_ID"
-	EnvSubscriptionID = "ARM_SUBSCRIPTION_ID"
+var (
+	clientId = flag.String("client-id", "", "arm client id")
+	subId    = flag.String("sub-id", "", "arm sub id")
 )
 
 func main() {
-	clientId, ok := os.LookupEnv(EnvClientID)
-	if !ok {
-		log.Fatalf("%q not defined", EnvClientID)
+	flag.Parse()
+	if *clientId == "" {
+		log.Fatal("client id not specified")
 	}
-	subId, ok := os.LookupEnv(EnvSubscriptionID)
-	if !ok {
-		log.Fatalf("%q not defined", EnvSubscriptionID)
+	if *subId == "" {
+		log.Fatal("subscription id not specified")
 	}
 	ctx := context.Background()
 	conf := externalaccount.Config{
 		Audience:         "api://AzureADTokenExchange",
 		SubjectTokenType: "urn:ietf:params:oauth:token-type:jwt",
 		TokenURL:         "https://login.microsoftonline.com/oauth2/v2.0/token",
-		ClientID:         clientId,
+		ClientID:         *clientId,
 		CredentialSource: &externalaccount.CredentialSource{
 			URL: os.Getenv("ACTIONS_ID_TOKEN_REQUEST_URL"),
 			Headers: map[string]string{
@@ -52,7 +52,7 @@ func main() {
 	}
 
 	c := oauth2.NewClient(ctx, ts)
-	resp, err := c.Get(fmt.Sprintf("https://management.azure.com/subscriptions/%s/resourcegroups/magodo-test?api-version=2020-06-01", subId))
+	resp, err := c.Get(fmt.Sprintf("https://management.azure.com/subscriptions/%s/resourcegroups/magodo-test?api-version=2020-06-01", *subId))
 	if err != nil {
 		log.Fatal(err)
 	}

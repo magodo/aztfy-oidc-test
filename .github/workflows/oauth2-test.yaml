@@ -19,4 +19,4 @@ jobs:
           go install
       - name: Run
         run:
-          $HOME/go/bin/oauth2-test
+          $HOME/go/bin/oauth2-test -sub-id ${{ secrets.ARM_SUBSCRIPTION_ID }} -client-id ${{ secrets.ARM_CLIENT_ID }}
