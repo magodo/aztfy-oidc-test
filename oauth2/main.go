@@ -12,16 +12,25 @@ import (
 )
 
 const (
-	EnvResourceId = "TEST_RESOURCE_ID"
-	EnvAPIVersion = "TEST_API_VERSION"
+	EnvClientID       = "ARM_CLIENT_ID"
+	EnvSubscriptionID = "ARM_SUBSCRIPTION_ID"
 )
 
 func main() {
+	clientId, ok := os.LookupEnv(EnvClientID)
+	if !ok {
+		log.Fatalf("%q not defined", EnvClientID)
+	}
+	subId, ok := os.LookupEnv(EnvSubscriptionID)
+	if !ok {
+		log.Fatalf("%q not defined", EnvSubscriptionID)
+	}
 	ctx := context.Background()
 	conf := externalaccount.Config{
 		Audience:         "api://AzureADTokenExchange",
 		SubjectTokenType: "urn:ietf:params:oauth:token-type:jwt",
 		TokenURL:         "https://login.microsoftonline.com/oauth2/v2.0/token",
+		ClientID:         clientId,
 		CredentialSource: &externalaccount.CredentialSource{
 			URL: os.Getenv("ACTIONS_ID_TOKEN_REQUEST_URL"),
 			Headers: map[string]string{
@@ -43,18 +52,11 @@ func main() {
 	}
 
 	c := oauth2.NewClient(ctx, ts)
-	resourceId, ok := os.LookupEnv(EnvResourceId)
-	if !ok {
-		log.Fatalf("%q not defined", EnvResourceId)
-	}
-	apiVersion, ok := os.LookupEnv(EnvAPIVersion)
-	if !ok {
-		log.Fatalf("%q not defined", EnvAPIVersion)
-	}
-	resp, err := c.Get(fmt.Sprintf("https://management.azure.com%s?api-version=%s", resourceId, apiVersion))
+	resp, err := c.Get(fmt.Sprintf("https://management.azure.com/subscriptions/%s/resourcegroups/magodo-test?api-version=2020-06-01", subId))
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println(resp.Status)
 	b, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatal(err)
