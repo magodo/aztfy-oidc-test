@@ -1,0 +1,22 @@
+name: Test-oauth2
+
+on:
+  workflow_dispatch
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-go@v2
+      - uses: actions/checkout@v3
+      - name: Install 
+        run: |
+          cd oauth2
+          go install
+      - name: Run
+        run:
+          oauth2-test
