@@ -31,8 +31,10 @@ provider "restful" {
   base_url = var.id_token_request_url
 
   security = {
-    token = {
-      token = var.id_token_request_token
+    http = {
+      token = {
+        token = var.id_token_request_token
+      }
     }
   }
 
