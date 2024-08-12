@@ -84,7 +84,7 @@ provider "restful" {
 }
 
 data "restful_resource" "test" {
-  id = "/subscriptions/var.sub_id/resourceGroups/aztfy"
+  id = "/subscriptions/${var.sub_id}/resourceGroups/aztfy"
   query = {
     api-version = ["2020-06-01"]
   }
